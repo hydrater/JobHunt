@@ -25,7 +25,34 @@ for this run** (default 10) and whether to **auto-submit applications** or
 **stop at draft** (default: prepare everything but pause before final submit on
 each one). Note their choice.
 
+## The main loop — ONE job, start to finish, before the next
+
+**This is the most important rule of the skill. Do NOT batch.**
+
+Process exactly one job through its *entire* lifecycle before you look for
+another. For each job, in this order:
+
+1. **Find** the next matching job (§1 crawl + §2 filter) — stop as soon as you
+   have ONE match.
+2. **Build** its application package (§3) and seed/track the row (§4).
+3. **Apply** to it, or stop at draft per the user's choice (§5), and update its
+   state in the CSV (§4).
+4. Only once that job has reached a final state (**Applied**, **Error**, or
+   draft-ready **Found**) do you return to step 1 for the next job.
+
+Never collect a list of matches and build them all, and never build several
+packages and apply at the end. Find one → build one → **apply to that one** →
+then find the next. Repeat until you reach the user's matched-job limit or run
+out of matches.
+
+The numbered sections below (§1–§5) are the *details* for each step of one loop
+iteration — not sequential phases to run across all jobs.
+
 ## 1. Crawl (per site, guided by scope.txt)
+
+While crawling, return to step 2 of the main loop the moment you identify a
+single matching job — do not keep paging to amass a batch. Remember where you
+were in the results so you can resume the crawl for the next iteration.
 
 For each of: **JobStreet (sg.jobstreet.com)**, **LinkedIn (linkedin.com/jobs)**,
 **MyCareersFuture (mycareersfuture.gov.sg)**:
@@ -51,7 +78,12 @@ For each candidate posting, open it and judge it against `scope.txt`:
 Respect: **one application per company per run** (unless distinct roles), and
 stop once you reach the user's matched-job limit.
 
-## 3. For each MATCHED job — build the application package
+## 3. Build the application package (for the ONE current match)
+
+> You arrive here with a single matched job. Build its package, then go straight
+> to §5 and apply to it *before* returning to §1 for another. Do not build a
+> second package until this job has been applied to (or drafted/errored).
+
 
 Let `STAMP` = current date-time as `YYYY-MM-DD_HHMM` (get it via
 `date "+%Y-%m-%d_%H%M"` in the Bash tool — do not guess the time).
@@ -121,7 +153,10 @@ Columns: `id,date_found,source,company,role,location,job_url,state,date_applied,
   quote, or newline per RFC 4180. Read-modify-write the whole file or append a
   correctly-formatted line — never corrupt existing rows.
 
-## 5. Apply
+## 5. Apply (do this now, before searching for the next job)
+
+This runs immediately after building the package for the current job — it is the
+last step of the loop iteration, not a phase deferred to the end of the run.
 
 If the user chose auto-submit (or after they approve a prepared draft):
 - Go to the posting's apply flow in the browser. For "Easy Apply" style forms,
@@ -134,6 +169,10 @@ If the user chose auto-submit (or after they approve a prepared draft):
   Workday — needs manual apply", "missing required field: years with Kafka").
 - If the user chose draft-only → leave state as **Found** and note "package
   ready, awaiting manual submit".
+
+Once this job's row reaches its final state, **return to §1 to find the next
+matching job**. Stop when you hit the user's matched-job limit or run out of
+matches.
 
 Never invent answers to application questions (work auth, salary, years of
 experience). If a required answer isn't in `info.txt`, stop that application,
