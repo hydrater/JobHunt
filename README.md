@@ -146,6 +146,10 @@ CSV in Excel or Google Sheets anytime.
 - **Be a good citizen:** it browses at a human pace and backs off on captchas /
   rate limits. Respect each site's Terms of Service — you are responsible for
   how you use it.
+- **Resume format.** Resumes use the **Harvard style** (single-column,
+  black-on-white, serif, no graphics, action-verb bullets, right-aligned
+  dates) — see `templates/resume_template.html`. Edit that template to change
+  the look for all future runs.
 - **Review before sending.** Tailored resumes and cover letters are a strong
   first draft; skim them before anything goes out.
 - **Verify the tailoring.** Each job folder has a `match_report.md` mapping the

@@ -1,7 +1,20 @@
 <!--
-  Resume template. The /hunt skill copies this into an application folder,
-  fills the {{PLACEHOLDERS}}, opens it in the browser, and saves resume.pdf.
-  Edit the CSS freely to match your taste — keep it print-friendly (A4).
+  Harvard-style resume template.
+
+  The /hunt skill copies this into an application folder, fills the
+  {{PLACEHOLDERS}}, opens it in the browser, and saves resume.pdf.
+
+  Harvard format rules this template follows (keep them when editing):
+    - Single column, black on white, NO colors / graphics / icons / tables / photo.
+    - Serif font (Times New Roman / Garamond), ~11pt, 1-page if possible.
+    - Name centered at top; contact line centered beneath it.
+    - Sections: Education, Experience, (Leadership/Projects), Skills & Interests.
+    - Each entry: Organization (bold) — Location on the right;
+      next line Role (italic) — Dates on the right.
+    - Bullets start with strong past-tense action verbs; quantify impact.
+    - Reverse-chronological order within each section.
+  NOTE on ordering: classic Harvard lists Education first. For experienced
+  candidates, the /hunt skill may move Experience above Education — that's fine.
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -9,73 +22,91 @@
 <meta charset="utf-8" />
 <title>{{FULL_NAME}} — Resume</title>
 <style>
-  @page { size: A4; margin: 16mm 16mm; }
+  @page { size: A4; margin: 18mm 18mm; }
   * { box-sizing: border-box; }
   body {
-    font-family: "Helvetica Neue", Arial, sans-serif;
-    color: #1a1a1a; font-size: 10.5pt; line-height: 1.4; margin: 0;
+    font-family: "Times New Roman", Garamond, Georgia, serif;
+    color: #000; font-size: 11pt; line-height: 1.3; margin: 0;
   }
-  header { border-bottom: 2px solid #1a1a1a; padding-bottom: 8px; margin-bottom: 14px; }
-  h1 { font-size: 20pt; margin: 0; letter-spacing: 0.5px; }
-  .title { font-size: 11pt; color: #444; margin-top: 2px; }
-  .contact { font-size: 9pt; color: #555; margin-top: 6px; }
-  .contact span:not(:last-child)::after { content: "  •  "; color: #bbb; }
+  header { text-align: center; margin-bottom: 12px; }
+  h1 {
+    font-size: 17pt; font-weight: bold; margin: 0;
+    letter-spacing: 1px; text-transform: uppercase;
+  }
+  .contact { font-size: 10pt; margin-top: 4px; }
+  .contact span:not(:last-child)::after { content: " | "; }
+
   h2 {
-    font-size: 11pt; text-transform: uppercase; letter-spacing: 1px;
-    border-bottom: 1px solid #ddd; padding-bottom: 3px; margin: 16px 0 8px;
+    font-size: 11pt; font-weight: bold; text-transform: uppercase;
+    letter-spacing: 0.5px; border-bottom: 1px solid #000;
+    padding-bottom: 2px; margin: 14px 0 6px;
   }
-  .summary { color: #333; }
-  .job { margin-bottom: 11px; }
-  .job-head { display: flex; justify-content: space-between; font-weight: bold; }
-  .job-sub { display: flex; justify-content: space-between; color: #555; font-size: 9.5pt; font-style: italic; }
-  ul { margin: 5px 0 0; padding-left: 18px; }
+
+  /* Org / location and Role / dates rows */
+  .entry { margin-bottom: 9px; }
+  .row { display: flex; justify-content: space-between; }
+  .row .left { font-weight: bold; }
+  .row .right { font-weight: bold; white-space: nowrap; padding-left: 12px; }
+  .row.sub .left { font-weight: normal; font-style: italic; }
+  .row.sub .right { font-weight: normal; font-style: italic; }
+
+  ul { margin: 3px 0 0; padding-left: 20px; }
   li { margin-bottom: 2px; }
-  .skills span {
-    display: inline-block; background: #f0f0f0; border-radius: 4px;
-    padding: 2px 8px; margin: 2px 3px 2px 0; font-size: 9pt;
-  }
+  p { margin: 0; }
+  .oneline { } /* skills / interests run as plain text, no chips */
 </style>
 </head>
 <body>
   <header>
     <h1>{{FULL_NAME}}</h1>
-    <div class="title">{{HEADLINE}}</div>
     <div class="contact">
-      <span>{{EMAIL}}</span><span>{{PHONE}}</span>
-      <span>{{LOCATION}}</span><span>{{LINKS}}</span>
+      <span>{{LOCATION}}</span><span>{{EMAIL}}</span>
+      <span>{{PHONE}}</span><span>{{LINKS}}</span>
     </div>
   </header>
 
+  <!-- EDUCATION (classic Harvard order: Education first) -->
   <section>
-    <h2>Summary</h2>
-    <p class="summary">{{SUMMARY_TAILORED_TO_THIS_ROLE}}</p>
+    <h2>Education</h2>
+    <div class="entry">
+      <div class="row"><span class="left">{{SCHOOL}}</span><span class="right">{{SCHOOL_LOCATION}}</span></div>
+      <div class="row sub"><span class="left">{{DEGREE}}{{OPTIONAL_GPA_HONORS}}</span><span class="right">{{YEARS}}</span></div>
+      <!-- Optional: relevant coursework / thesis as a single line or 1–2 bullets -->
+    </div>
   </section>
 
+  <!-- EXPERIENCE -->
   <section>
     <h2>Experience</h2>
-    <!-- Repeat .job per role. Lead with bullets most relevant to THIS job. -->
-    <div class="job">
-      <div class="job-head"><span>{{ROLE_TITLE}} — {{COMPANY}}</span><span>{{DATES}}</span></div>
-      <div class="job-sub"><span>{{JOB_LOCATION}}</span><span>{{OPTIONAL_TECH}}</span></div>
+    <!-- Repeat .entry per role, most recent first. Lead with bullets most
+         relevant to THIS posting. -->
+    <div class="entry">
+      <div class="row"><span class="left">{{COMPANY}}</span><span class="right">{{JOB_LOCATION}}</span></div>
+      <div class="row sub"><span class="left">{{ROLE_TITLE}}</span><span class="right">{{DATES}}</span></div>
       <ul>
-        <li>{{ACHIEVEMENT_BULLET}}</li>
+        <li>{{ACTION_VERB_ACHIEVEMENT_BULLET_WITH_A_NUMBER}}</li>
       </ul>
     </div>
   </section>
 
+  <!-- Optional: LEADERSHIP & PROJECTS (same entry format) -->
   <section>
-    <h2>Skills</h2>
-    <div class="skills">
-      <!-- Order skills by relevance to the job description. -->
-      <span>{{SKILL}}</span>
+    <h2>Leadership &amp; Projects</h2>
+    <div class="entry">
+      <div class="row"><span class="left">{{PROJECT_OR_ORG}}</span><span class="right">{{PLACE}}</span></div>
+      <div class="row sub"><span class="left">{{ROLE_OR_DESCRIPTOR}}</span><span class="right">{{DATES}}</span></div>
+      <ul>
+        <li>{{BULLET}}</li>
+      </ul>
     </div>
   </section>
 
+  <!-- SKILLS & INTERESTS — plain text, no chips/badges (Harvard style) -->
   <section>
-    <h2>Education</h2>
-    <div class="job">
-      <div class="job-head"><span>{{DEGREE}} — {{SCHOOL}}</span><span>{{YEARS}}</span></div>
-    </div>
+    <h2>Skills &amp; Interests</h2>
+    <p class="oneline"><strong>Technical:</strong> {{SKILLS_ORDERED_BY_RELEVANCE_TO_THIS_JOB}}</p>
+    <p class="oneline"><strong>Languages:</strong> {{SPOKEN_LANGUAGES}}</p>
+    <p class="oneline"><strong>Interests:</strong> {{INTERESTS}}</p>
   </section>
 </body>
 </html>

@@ -72,8 +72,12 @@ Let `STAMP` = current date-time as `YYYY-MM-DD_HHMM` (get it via
 4. **`resume.pdf`** — copy `templates/resume_template.html` into the folder as
    `resume.html`. Fill every `{{PLACEHOLDER}}` using `info.txt`, reordering and
    rewording bullets/skills to match THIS posting's requirements. Never
-   fabricate experience. Then open `file://<abs path>/resume.html` in the
-   browser and `browser_pdf_save` → `resume.pdf`.
+   fabricate experience. **Preserve the Harvard format**: single column, black
+   on white, serif, no colors/graphics/chips; bullets start with strong
+   past-tense action verbs and quantify impact; reverse-chronological. For a
+   senior candidate you may move Experience above Education. Then open
+   `file://<abs path>/resume.html` in the browser and `browser_pdf_save` →
+   `resume.pdf`.
 
 5. **`cover_letter.pdf`** — same flow with
    `templates/cover_letter_template.html` → `cover_letter.html` →
