@@ -80,8 +80,31 @@ Let `STAMP` = current date-time as `YYYY-MM-DD_HHMM` (get it via
    `cover_letter.pdf`. Reference something concrete from the posting; map the
    candidate's strongest quantified wins to the role's needs; keep to one page.
 
-6. (Optional) leave the `.html` files in the folder — they make it easy for the
-   user to tweak and re-export.
+6. **`match_report.md`** — write a short audit so the user can verify the
+   resume is genuinely specialized for THIS role. Format:
+
+   ```
+   # Match report — <Company> · <Role>
+
+   ## Key requirements (from the posting)
+   1. <requirement>  → addressed by: <resume bullet / skill used>  [strong | partial | gap]
+   2. ...
+
+   ## What this version emphasizes
+   - <bullets/skills moved up or reworded for this role, and why>
+
+   ## De-emphasized / omitted
+   - <experience from info.txt left out as less relevant here>
+
+   ## Gaps (requirements you don't fully meet)
+   - <honest list — these are NOT invented in the resume>
+
+   ## Tailoring score: <X>/10  — <one-line justification>
+   ```
+   Be honest about gaps; never close a gap by fabricating experience.
+
+7. Leave the `.html` files in the folder — they make it easy for the user to
+   tweak and re-export.
 
 ## 4. Track in applications.csv
 

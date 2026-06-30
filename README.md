@@ -17,6 +17,7 @@ You write scope ──► scope.txt
         ├── job_posting.pdf      (the listing, saved as PDF)
         ├── resume.pdf           (tailored to THIS role)
         ├── cover_letter.pdf     (tailored to THIS role)
+        ├── match_report.md      (requirement-by-requirement audit + gaps)
         └── …                    (+ editable .html sources)
                          │
                          ▼
@@ -147,6 +148,10 @@ CSV in Excel or Google Sheets anytime.
   how you use it.
 - **Review before sending.** Tailored resumes and cover letters are a strong
   first draft; skim them before anything goes out.
+- **Verify the tailoring.** Each job folder has a `match_report.md` mapping the
+  posting's requirements to the exact bullets/skills used, what was
+  emphasized/dropped, honest gaps, and a tailoring score — so you can confirm
+  every resume is specialized rather than generic.
 
 ---
 
