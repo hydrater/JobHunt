@@ -1,0 +1,9 @@
+{
+  "name": "jobhunt",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Claude Code job-hunting agent — browser automation deps for the hunt/setup-login skills.",
+  "devDependencies": {
+    "@playwright/mcp": "0.0.77"
+  }
+}

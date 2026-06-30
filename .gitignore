@@ -38,3 +38,6 @@ desktop.ini
 
 # Node (Playwright MCP may cache things locally)
 node_modules/
+
+# Playwright MCP runtime artifacts (console logs + page snapshots of scraped jobs)
+.playwright-mcp/
