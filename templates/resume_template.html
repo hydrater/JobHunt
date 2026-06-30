@@ -1,0 +1,81 @@
+<!--
+  Resume template. The /hunt skill copies this into an application folder,
+  fills the {{PLACEHOLDERS}}, opens it in the browser, and saves resume.pdf.
+  Edit the CSS freely to match your taste — keep it print-friendly (A4).
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>{{FULL_NAME}} — Resume</title>
+<style>
+  @page { size: A4; margin: 16mm 16mm; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    color: #1a1a1a; font-size: 10.5pt; line-height: 1.4; margin: 0;
+  }
+  header { border-bottom: 2px solid #1a1a1a; padding-bottom: 8px; margin-bottom: 14px; }
+  h1 { font-size: 20pt; margin: 0; letter-spacing: 0.5px; }
+  .title { font-size: 11pt; color: #444; margin-top: 2px; }
+  .contact { font-size: 9pt; color: #555; margin-top: 6px; }
+  .contact span:not(:last-child)::after { content: "  •  "; color: #bbb; }
+  h2 {
+    font-size: 11pt; text-transform: uppercase; letter-spacing: 1px;
+    border-bottom: 1px solid #ddd; padding-bottom: 3px; margin: 16px 0 8px;
+  }
+  .summary { color: #333; }
+  .job { margin-bottom: 11px; }
+  .job-head { display: flex; justify-content: space-between; font-weight: bold; }
+  .job-sub { display: flex; justify-content: space-between; color: #555; font-size: 9.5pt; font-style: italic; }
+  ul { margin: 5px 0 0; padding-left: 18px; }
+  li { margin-bottom: 2px; }
+  .skills span {
+    display: inline-block; background: #f0f0f0; border-radius: 4px;
+    padding: 2px 8px; margin: 2px 3px 2px 0; font-size: 9pt;
+  }
+</style>
+</head>
+<body>
+  <header>
+    <h1>{{FULL_NAME}}</h1>
+    <div class="title">{{HEADLINE}}</div>
+    <div class="contact">
+      <span>{{EMAIL}}</span><span>{{PHONE}}</span>
+      <span>{{LOCATION}}</span><span>{{LINKS}}</span>
+    </div>
+  </header>
+
+  <section>
+    <h2>Summary</h2>
+    <p class="summary">{{SUMMARY_TAILORED_TO_THIS_ROLE}}</p>
+  </section>
+
+  <section>
+    <h2>Experience</h2>
+    <!-- Repeat .job per role. Lead with bullets most relevant to THIS job. -->
+    <div class="job">
+      <div class="job-head"><span>{{ROLE_TITLE}} — {{COMPANY}}</span><span>{{DATES}}</span></div>
+      <div class="job-sub"><span>{{JOB_LOCATION}}</span><span>{{OPTIONAL_TECH}}</span></div>
+      <ul>
+        <li>{{ACHIEVEMENT_BULLET}}</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <h2>Skills</h2>
+    <div class="skills">
+      <!-- Order skills by relevance to the job description. -->
+      <span>{{SKILL}}</span>
+    </div>
+  </section>
+
+  <section>
+    <h2>Education</h2>
+    <div class="job">
+      <div class="job-head"><span>{{DEGREE}} — {{SCHOOL}}</span><span>{{YEARS}}</span></div>
+    </div>
+  </section>
+</body>
+</html>

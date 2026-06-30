@@ -1,0 +1,58 @@
+<!--
+  Cover letter template. /hunt fills the {{PLACEHOLDERS}}, opens it in the
+  browser, and saves cover_letter.pdf. Keep it to one page.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>{{FULL_NAME}} — Cover Letter — {{COMPANY}}</title>
+<style>
+  @page { size: A4; margin: 22mm 20mm; }
+  body {
+    font-family: Georgia, "Times New Roman", serif;
+    color: #1a1a1a; font-size: 11pt; line-height: 1.55; margin: 0;
+  }
+  .sender { margin-bottom: 22px; }
+  .sender .name { font-size: 15pt; font-weight: bold; font-family: "Helvetica Neue", Arial, sans-serif; }
+  .sender .meta { font-size: 9.5pt; color: #555; }
+  .date { margin-bottom: 18px; color: #555; }
+  .recipient { margin-bottom: 18px; }
+  p { margin: 0 0 11px; }
+  .sign { margin-top: 22px; }
+</style>
+</head>
+<body>
+  <div class="sender">
+    <div class="name">{{FULL_NAME}}</div>
+    <div class="meta">{{EMAIL}} &nbsp;•&nbsp; {{PHONE}} &nbsp;•&nbsp; {{LOCATION}}</div>
+  </div>
+
+  <div class="date">{{DATE}}</div>
+
+  <div class="recipient">
+    Hiring Team<br />
+    {{COMPANY}}<br />
+    Re: {{ROLE_TITLE}}
+  </div>
+
+  <p>Dear {{GREETING_NAME_OR_Hiring_Team}},</p>
+
+  <!-- Opening: why THIS company + role specifically. Reference something
+       concrete from the posting. -->
+  <p>{{OPENING_PARAGRAPH}}</p>
+
+  <!-- Body: 1–2 paragraphs mapping the candidate's strongest, most relevant
+       achievements (from info.txt) to the job's requirements. Use numbers. -->
+  <p>{{BODY_PARAGRAPH_1}}</p>
+  <p>{{BODY_PARAGRAPH_2}}</p>
+
+  <!-- Close: enthusiasm + call to action. -->
+  <p>{{CLOSING_PARAGRAPH}}</p>
+
+  <div class="sign">
+    Sincerely,<br /><br />
+    {{FULL_NAME}}
+  </div>
+</body>
+</html>
