@@ -91,6 +91,18 @@ This produces `info.txt`. Review it and re-run if you add more to `past_cv/`.
 A browser opens to each site — log in manually (handles 2FA / Singpass). Your
 session is saved to `.browser-profile/` and reused on every hunt.
 
+### 6b. (Optional) Credentials for external apply sites
+Some listings redirect to an external ATS (Workday, Greenhouse, Lever, …) that
+requires an account before you can apply. Give the agent one set of credentials
+to register with:
+```bash
+cp credentials.example.txt credentials.txt   # Windows: copy credentials.example.txt credentials.txt
+```
+Edit **`credentials.txt`** — an email you can check (ATS often send a
+verification link) and a password to reuse across sites. It's gitignored and
+stays on your machine. Skip this and the agent simply marks account-walled jobs
+`Error` instead of registering.
+
 ### 7. Hunt
 ```
 /hunt
@@ -131,6 +143,7 @@ CSV in Excel or Google Sheets anytime.
 | skills, templates, README | `past_cv/*` (your resumes) |
 | `scope.example.txt` | `scope.txt` (your search) |
 | `applications.template.csv` | `info.txt`, `applications.csv` |
+| `credentials.example.txt` | `credentials.txt` (your ATS logins) |
 | `.mcp.json` | `output/*` (your applications) |
 | | `.browser-profile/` (your logins) |
 
@@ -143,6 +156,13 @@ CSV in Excel or Google Sheets anytime.
   when a submission is actually confirmed. Anything it can't answer from
   `info.txt` (work auth, exact years, salary) becomes an `Error` for you to
   handle, not a guess.
+- **External apply flows:** when a listing redirects to a company careers page
+  or an external ATS (Workday, Greenhouse, Lever, Ashby, iCIMS, …), the agent
+  follows the redirect and completes the application there too, saving an
+  `apply_confirmation.pdf` as proof. If the ATS needs an account it can't create
+  (email/phone verification, captcha), it stops and marks `Error` with the apply
+  URL so you can finish it. Logging into a common ATS once via `/setup-login`
+  lets future redirected applications reuse that session.
 - **Be a good citizen:** it browses at a human pace and backs off on captchas /
   rate limits. Respect each site's Terms of Service — you are responsible for
   how you use it.

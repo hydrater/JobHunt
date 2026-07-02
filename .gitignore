@@ -13,6 +13,10 @@ info.txt
 # Your actual search scope (a template scope.txt is committed)
 scope.txt
 
+# Credentials for creating accounts on external apply sites
+# (a template credentials.example.txt is committed)
+credentials.txt
+
 # Generated job applications (folders with posting/resume/cover letter)
 output/*
 !output/.gitkeep

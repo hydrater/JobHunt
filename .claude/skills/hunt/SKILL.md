@@ -1,6 +1,6 @@
 ---
 name: hunt
-description: The main job-hunting loop. Crawls JobStreet, LinkedIn, and MyCareersFuture with the browser using scope.txt, and for each matching job creates an output folder with job_posting.pdf, a tailored resume.pdf and cover_letter.pdf, then tracks it in applications.csv (Found → Applied/Error).
+description: The main job-hunting loop. Crawls JobStreet, LinkedIn, MyCareersFuture, and Indeed with the browser using scope.txt, and for each matching job creates an output folder with job_posting.pdf, a tailored resume.pdf and cover_letter.pdf, then tracks it in applications.csv (Found → Applied/Error).
 ---
 
 # hunt
@@ -18,6 +18,11 @@ tailored application package per job while tracking everything in a CSV.
   copying `applications.template.csv` (header row only).
 - **Playwright MCP** tools are available and the user is logged in. If browsing
   a site lands on a login wall → tell the user to run `/setup-login` and stop.
+- **`credentials.txt`** is *optional*. If it exists, read it into context — it
+  supplies the email/password the agent uses to create accounts on external
+  apply sites (§5a). If it's missing, that's fine; the agent just can't register
+  new ATS accounts and will mark those jobs `Error` instead. (A template lives
+  at `credentials.example.txt`.)
 - Read `info.txt` and `scope.txt` fully into context now.
 
 Ask the user (or accept from their message): **how many matched jobs to apply
@@ -55,7 +60,7 @@ single matching job — do not keep paging to amass a batch. Remember where you
 were in the results so you can resume the crawl for the next iteration.
 
 For each of: **JobStreet (sg.jobstreet.com)**, **LinkedIn (linkedin.com/jobs)**,
-**MyCareersFuture (mycareersfuture.gov.sg)**:
+**MyCareersFuture (mycareersfuture.gov.sg)**, **Indeed (sg.indeed.com)**:
 
 1. Build a search from `scope.txt`: use the target roles as keywords and the
    location filter. Navigate to the site's job search with those terms.
@@ -161,14 +166,64 @@ last step of the loop iteration, not a phase deferred to the end of the run.
 If the user chose auto-submit (or after they approve a prepared draft):
 - Go to the posting's apply flow in the browser. For "Easy Apply" style forms,
   fill fields from `info.txt`, attach/point to `resume.pdf`, and submit.
-- On confirmed submission → update that job's row: `state` = **Applied**,
-  `date_applied` = today.
-- If the apply flow is external, requires an account you don't have, hits a
-  captcha you can't clear, demands info not in `info.txt`, or otherwise fails →
-  set `state` = **Error** and put the reason in `notes` (e.g. "redirects to
-  Workday — needs manual apply", "missing required field: years with Kafka").
+- **If the apply button redirects to another site** (an "Apply on company
+  website" button, or the board hands off to an external ATS such as Workday,
+  Greenhouse, Lever, Ashby, SmartRecruiters, iCIMS, Taleo, BambooHR,
+  Workable, or a company careers page), **do not stop — follow the redirect and
+  apply there too**, per §5a below.
+- On confirmed submission (on either the board or the external site) → update
+  that job's row: `state` = **Applied**, `date_applied` = today, and note where
+  it was submitted (e.g. "applied via Greenhouse").
+- If applying hits a captcha you can't clear, demands info not in `info.txt`, or
+  otherwise fails → set `state` = **Error** and put the reason in `notes` (e.g.
+  "Workday requires phone verification", "missing required field: years with
+  Kafka").
 - If the user chose draft-only → leave state as **Found** and note "package
-  ready, awaiting manual submit".
+  ready, awaiting manual submit" (include the external apply URL if it redirected
+  so the user can finish it).
+
+### 5a. Applying on a redirected / external site
+
+When the apply flow leaves the source board for another site, treat the
+destination as the real application and drive it to completion:
+
+1. **Follow the redirect** in the same browser. Take a snapshot (not a
+   screenshot) to read the destination's structure. Record the final apply URL
+   in the row's `notes` and identify the ATS/host.
+2. **Handle a login/account wall** using `credentials.txt` (see below):
+   - If the persistent profile is already logged into that ATS (Workday tenants,
+     Greenhouse, etc. often persist), continue.
+   - If `credentials.txt` names an `sso_provider` and the site offers it, use
+     that social sign-on.
+   - Otherwise, if it needs a fresh account, **register using the `email` and
+     `password` from `credentials.txt`** (and `full_name`/`phone` if the form
+     needs them). Reuse the same credentials across sites so the user has one
+     known login everywhere.
+   - If `credentials.txt` is missing or the needed field is blank, OR the site
+     demands email/phone verification or a captcha you can't clear → set
+     `state` = **Error**, note the wall and the apply URL, and move on. **Never
+     invent an email, password, or any credential** — only use what's in
+     `credentials.txt`.
+   - Honor any limits in the file's `notes` (e.g. "only create accounts on
+     Greenhouse and Lever"), and never tick marketing/newsletter opt-ins.
+3. **Fill the form** from `info.txt`: name, contact, work authorization,
+   location, links. Attach `resume.pdf`; attach `cover_letter.pdf` where there's
+   a field for it. Many ATS offer "autofill from resume" — use it, then verify
+   every parsed field against `info.txt` and fix mistakes before continuing.
+4. **Screening questions**: answer only from `info.txt`. Never invent work-auth,
+   salary, notice-period, or years-of-experience answers. If a *required* field
+   has no basis in `info.txt`, stop, set `state` = **Error**, and say exactly
+   what's needed. Multi-page ATS flows (Workday especially) — step through each
+   page; don't assume a later page.
+5. **Submit** (auto-submit mode) or **stop at the final review page**
+   (draft-only mode). Confirm the success/confirmation screen before marking
+   **Applied** — a form that merely advanced a page is not submitted.
+6. **Save proof**: with the confirmation page open, `browser_pdf_save` →
+   `output/<folder>/apply_confirmation.pdf` so there's a record the external
+   submission went through.
+
+Apply the same one-application-per-company and human-pace etiquette on the
+external site as on the boards.
 
 Once this job's row reaches its final state, **return to §1 to find the next
 matching job**. Stop when you hit the user's matched-job limit or run out of

@@ -1,0 +1,7 @@
+{
+  "enabledMcpjsonServers": ["playwright"],
+  "env": {
+    "MCP_TIMEOUT": "60000",
+    "MCP_TOOL_TIMEOUT": "120000"
+  }
+}

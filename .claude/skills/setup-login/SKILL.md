@@ -1,6 +1,6 @@
 ---
 name: setup-login
-description: Open JobStreet, LinkedIn, and MyCareersFuture in the persistent browser so the user can log in once. Sessions are saved to .browser-profile/ and reused by the hunt skill. Run this before the first hunt, or whenever a session expires.
+description: Open JobStreet, LinkedIn, MyCareersFuture, and Indeed in the persistent browser so the user can log in once. Sessions are saved to .browser-profile/ and reused by the hunt skill. Run this before the first hunt, or whenever a session expires.
 ---
 
 # setup-login
@@ -24,6 +24,8 @@ For each site below, in order:
 2. **LinkedIn** — navigate to `https://www.linkedin.com/login`.
 3. **MyCareersFuture** — navigate to `https://www.mycareersfuture.gov.sg/`
    (login via Singpass when prompted).
+4. **Indeed** — navigate to `https://sg.indeed.com/account/login`
+   (or `https://sg.indeed.com/`).
 
 For each one:
 - Open the page with the browser, then **pause and tell the user**: *"Please
@@ -35,7 +37,7 @@ For each one:
   the page shows their feed / profile avatar) and note it.
 
 ## Finish
-- Confirm all three sessions are active and saved to `.browser-profile/`.
+- Confirm all four sessions are active and saved to `.browser-profile/`.
 - Remind the user that `.browser-profile/` is gitignored and contains live
   login cookies — they should never commit or share it.
 - Tell them they're ready to run `/hunt`.
@@ -45,3 +47,9 @@ For each one:
   SG-only). If the user is elsewhere, ask for their JobStreet/LinkedIn country
   and adjust the URLs.
 - If a session later expires, just re-run `/setup-login`.
+- **External ATS logins persist too.** `/hunt` follows postings that redirect to
+  external application sites (Workday, Greenhouse, Lever, Ashby, iCIMS, company
+  careers pages) and applies there. Those sites save cookies to the same
+  `.browser-profile/`, so if the user expects to apply through a particular ATS
+  a lot, they can ask to open and log into it here as well — future redirected
+  applications will reuse that session instead of hitting an account wall.
